@@ -1,0 +1,5 @@
+<div class="container">
+    @for (item of arduinos; track item){
+        <button (click)="navigateToDetails(item.id)" mat-raised-button disabled="{{ item.status === 'Disconnected' }}" color="primary">{{ item.name }}</button>
+    }
+</div>
