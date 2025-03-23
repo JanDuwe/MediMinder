@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1742761229736,
+  "timestamp": 1742761890938,
   "index": "https://JanDuwe.github.io/MediMinder/index.html",
   "assetGroups": [
     {
@@ -11,11 +11,11 @@
         "ignoreVary": true
       },
       "urls": [
-        "https://JanDuwe.github.io/MediMinder/chunk-QKSPCWNA.js",
+        "https://JanDuwe.github.io/MediMinder/chunk-FLG74ACC.js",
         "https://JanDuwe.github.io/MediMinder/chunk-VDDL5EEM.js",
         "https://JanDuwe.github.io/MediMinder/favicon.ico",
         "https://JanDuwe.github.io/MediMinder/index.html",
-        "https://JanDuwe.github.io/MediMinder/main-DD52JUNP.js",
+        "https://JanDuwe.github.io/MediMinder/main-URNCUSBB.js",
         "https://JanDuwe.github.io/MediMinder/manifest.webmanifest",
         "https://JanDuwe.github.io/MediMinder/polyfills-FFHMD2TL.js",
         "https://JanDuwe.github.io/MediMinder/styles-JJRCBKWE.css"
@@ -44,7 +44,7 @@
   ],
   "dataGroups": [],
   "hashTable": {
-    "https://JanDuwe.github.io/MediMinder/chunk-QKSPCWNA.js": "d9c892ce2d11c3994f59c0e67ab24f4a40faedd9",
+    "https://JanDuwe.github.io/MediMinder/chunk-FLG74ACC.js": "5fea8075d761c6f068a15bd9ccdc4a00a15792fc",
     "https://JanDuwe.github.io/MediMinder/chunk-VDDL5EEM.js": "c5dee2c147a5502526080d6acc68cf679122f51e",
     "https://JanDuwe.github.io/MediMinder/favicon.ico": "9c39f434fe1261f68c5e3eefdf734630d99c5670",
     "https://JanDuwe.github.io/MediMinder/icons/icon-128x128.png": "f912963bdc6d5a38d8f1dd0afbaab2ce8d657acb",
@@ -55,8 +55,8 @@
     "https://JanDuwe.github.io/MediMinder/icons/icon-512x512.png": "1de182f76f7329dfa8f9fcdd1fdcdd695bea6a99",
     "https://JanDuwe.github.io/MediMinder/icons/icon-72x72.png": "aa88a6096bd973be7f6d7a5489bfa6bc2463f8c4",
     "https://JanDuwe.github.io/MediMinder/icons/icon-96x96.png": "7fb8f59c30ce2ff12c700321a0b39e14b3dc8f95",
-    "https://JanDuwe.github.io/MediMinder/index.html": "509456d96b3a88fb236a09d6605def9c1895fdf5",
-    "https://JanDuwe.github.io/MediMinder/main-DD52JUNP.js": "e8eb2bb8c7eef67b2120602d3753a3fb58633857",
+    "https://JanDuwe.github.io/MediMinder/index.html": "7b16c692241dcaf5289d4bd1a0edaa40c47b7b70",
+    "https://JanDuwe.github.io/MediMinder/main-URNCUSBB.js": "e5f2f30d34590cc5e7956725fc6667276f7a6b64",
     "https://JanDuwe.github.io/MediMinder/manifest.webmanifest": "072cf44533590e7483e7bc1c499ed8f3826cefb3",
     "https://JanDuwe.github.io/MediMinder/polyfills-FFHMD2TL.js": "f49b49a155bc7d192db62a4c15d0a612b460a667",
     "https://JanDuwe.github.io/MediMinder/styles-JJRCBKWE.css": "a30ac92a0d849adbdb2510ba465d9f9a3244ec0e"
