@@ -1,31 +1,50 @@
 <div class="container">
-    <h1>Arduino</h1>
-
-    <mat-card class="dose-information" appearance="outlined">
-        Morning Dose: Taken
-    </mat-card>
-    <br>
-    <mat-card class="dose-information" appearance="outlined">
-        Noon Dose: Not Taken
-    </mat-card>
-    <br>
-    <mat-card class="dose-information" appearance="outlined">
-        Evening Dose: Taken
-    </mat-card>
-    <br>
-    <mat-card appearance="outlined">
-        <mat-card-header>
-            <mat-card-title>Logging Information</mat-card-title>
-            <mat-card-subtitle>Recent Events:</mat-card-subtitle>
-        </mat-card-header>
-        <mat-card-content>
-            @for (entry of intakeMedicineLog | async; track entry) {
-                <p>{{entry}}</p> }
-        </mat-card-content>
-        <mat-card-actions align="end">
-            <button mat-button>View full log</button>
-        </mat-card-actions>
-    </mat-card>
+    @if (!showLogs){
+        <h1>Medicine Intake Details</h1>
+        <mat-card class="dose-information" appearance="outlined">
+            Morning Dose: Taken
+        </mat-card>
+        <br>
+        <mat-card class="dose-information" appearance="outlined">
+            Noon Dose: Not Taken
+        </mat-card>
+        <br>
+        <mat-card class="dose-information" appearance="outlined">
+            Evening Dose: Taken
+        </mat-card>
+        <br>
+        <mat-card appearance="outlined">
+            <mat-card-header>
+                <mat-card-title>Logging Information</mat-card-title>
+                <mat-card-subtitle>Recent Events:</mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+                @for (entry of intakeMedicineLog.getValue().slice(0,3); track entry) {
+                <p>{{entry.timestamp }}: {{ entry.log }}</p>
+                }
+            </mat-card-content>
+            <mat-card-actions align="end">
+                <button (click)="viewFullLog()" mat-button color="accent">View full log</button>
+            </mat-card-actions>
+        </mat-card>
+    }
+    @else {
+        <mat-card appearance="outlined">
+            <mat-card-header>
+                <mat-card-title>Logging Information</mat-card-title>
+                <mat-card-subtitle>Recent Events:</mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+                @for (entry of intakeMedicineLog | async; track entry) {
+                <p>{{entry.timestamp }}: {{ entry.log }}</p>
+                }
+            </mat-card-content>
+            <mat-card-actions align="end">
+                <button (click)="exitFullLog()" mat-button color="accent">Back</button>
+            </mat-card-actions>
+        </mat-card>
+    }
+    
 </div>
 
 
