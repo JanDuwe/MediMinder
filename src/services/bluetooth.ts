@@ -9,7 +9,8 @@ import { BehaviorSubject, Observable } from 'rxjs';
 export class BluetoothService {
   public connectionStatus$ = new BehaviorSubject<boolean>(false);
   private newValueObservable = new BehaviorSubject<number | null>(null);
-  private SERVICE_UUID: BluetoothServiceUUID = '';
+  private SERVICE_UUID: BluetoothServiceUUID =
+    '4fafc201-1fb5-459e-8fcc-c5c9c331914b';
   private CHARACTERISTIC_UUID: BluetoothCharacteristicUUID =
     'beb5483e-36e1-4688-b7f5-ea07361b26a8';
   private device: BluetoothDevice | null = null;
@@ -45,7 +46,7 @@ export class BluetoothService {
     return navigator.bluetooth
       .requestDevice(
         {
-          acceptAllDevices: true,
+          acceptAllDevices: true, //filters: [{ namePrefix: 'MediMinderBLE' }],
           optionalServices: [this.SERVICE_UUID],
         }
         // filters: [{ services: [this.SERVICE_UUID] }]
@@ -93,10 +94,10 @@ export class BluetoothService {
             const value = (
               event.target as BluetoothRemoteGATTCharacteristic
             ).value?.getUint16(0, true);
-              this.newValueObservable.next(value ?? null);
+            this.newValueObservable.next(value ?? null);
           }
         );
-          this.connectionStatus$.next(true);
+        this.connectionStatus$.next(true);
         return true;
       })
       .catch((error) => {

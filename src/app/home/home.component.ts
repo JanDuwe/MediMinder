@@ -4,10 +4,11 @@ import { Router } from '@angular/router';
 import { BluetoothService } from '../../services/bluetooth';
 import { pipe } from 'rxjs';
 import { MatIconModule } from '@angular/material/icon';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'app-home',
-  imports: [MatButtonModule, MatIconModule],
+  imports: [MatButtonModule, MatIconModule, AsyncPipe],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
 })
@@ -25,21 +26,15 @@ export class HomeComponent {
     { id: '3', name: 'Arduino 3', status: 'Disconnected' },
   ];
 
-  isConnected = false;
-  connectionMessage = '';
-
-  ngOnInit() {
-    this.bluetoothService.connectionStatus$.pipe().subscribe((isConnected) => {
-      this.isConnected = isConnected;
-      this.updateConnectionMessage();
-    });
-
-    // Check initial connection status
+  async connect() {
+    await this.bluetoothService.tryConnect();
     this.updateConnectionMessage();
   }
 
+  connectionMessage = '';
+
   private updateConnectionMessage(): void {
-    if (this.isConnected) {
+    if (this.bluetoothService.connectionStatus$.getValue()) {
       this.connectionMessage = 'Bluetooth device connected successfully';
     } else {
       this.connectionMessage = 'No Bluetooth device connected';

@@ -1,12 +1,13 @@
 
 <div class="connection-status">
-    @if (isConnected) {
+    @if (bluetoothService.connectionStatus$ | async) {
         <mat-icon>bluetooth_connected</mat-icon>
     }
     <span>{{ connectionMessage }}</span>
 </div>
 
 <div class="container">
+    <button (click)="connect()" mat-raised-button>Connect</button>
     @for (item of arduinos; track item){
         <button (click)="navigateToDetails(item.id)" mat-raised-button disabled="{{ item.status === 'Disconnected' }}" color="primary">
             {{ item.name }}
