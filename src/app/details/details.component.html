@@ -1,16 +1,16 @@
 <div class="container">
     @if (!showLogs){
         <h1>Medicine Intake Details</h1>
-        <mat-card class="dose-information" appearance="outlined">
-            Morning Dose: Taken
+        <mat-card appearance="outlined" [ngClass]="{'taken': wasMorningMedicineTaken(), 'not-taken': !wasMorningMedicineTaken(), 'dose-information': true }">
+            Morning Dose: {{ wasMorningMedicineTaken() ? 'Not taken' : 'Not Taken'}}
         </mat-card>
         <br>
-        <mat-card class="dose-information" appearance="outlined">
-            Noon Dose: Not Taken
+        <mat-card appearance="outlined" [ngClass]="{'taken': wasNoonMedicineTaken(), 'not-taken': !wasNoonMedicineTaken(), 'dose-information': true }">
+            Noon Dose: {{ wasNoonMedicineTaken() ? 'Taken' : 'Not Taken' }}
         </mat-card>
         <br>
-        <mat-card class="dose-information" appearance="outlined">
-            Evening Dose: Taken
+        <mat-card appearance="outlined" [ngClass]="{'taken': wasEveningMedicineTaken(), 'not-taken': !wasEveningMedicineTaken(), 'dose-information': true }">
+            Evening Dose: {{ wasEveningMedicineTaken() ? 'Taken' : 'Not Taken'}}
         </mat-card>
         <br>
         <mat-card appearance="outlined">

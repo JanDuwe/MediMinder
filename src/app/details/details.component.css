@@ -18,4 +18,12 @@ mat-card {
     &.dose-information {
         font-size: 1.5rem;
     }
+
+    &.taken {
+        background-color: #66e082;   
+    }
+
+    &.not-taken {
+        background-color: #ff6f6f;
+    }
 }
