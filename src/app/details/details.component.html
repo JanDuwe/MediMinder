@@ -19,13 +19,8 @@
             <mat-card-subtitle>Recent Events:</mat-card-subtitle>
         </mat-card-header>
         <mat-card-content>
-            <p>
-                Event 1: 08:00 AM - Morning Dose Taken
-                <br>
-                Event 2: 12:00 PM - Box moved
-                <br>
-                Event 3: 06:00 PM - Evening Dose Taken
-            </p>
+            @for (entry of intakeMedicineLog | async; track entry) {
+                <p>{{entry}}</p> }
         </mat-card-content>
         <mat-card-actions align="end">
             <button mat-button>View full log</button>

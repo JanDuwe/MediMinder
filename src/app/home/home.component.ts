@@ -18,9 +18,6 @@ export class HomeComponent {
   protected router = inject(Router);
   protected bluetoothService = inject(BluetoothService);
 
-  // label = '';
-  private dataSubscription: Subscription | undefined;
-
   navigateToDetails(id: string) {
     this.router.navigate(['/details', id]);
   }
@@ -28,18 +25,6 @@ export class HomeComponent {
   arduinos = [
     { id: '1', name: 'Details', status: 'Connected' },
   ];
-
-  // ngOnInit(): void {
-  //   this.dataSubscription = this.bluetoothService.data$.subscribe(
-  //     (label) => (this.label = label)
-  //   );
-  // }
-
-  // ngOnDestroy(): void {
-  //   if (this.dataSubscription) {
-  //     this.dataSubscription.unsubscribe();
-  //   }
-  // }
 
   async connect() {
     await this.bluetoothService.tryConnect();
