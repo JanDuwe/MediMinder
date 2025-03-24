@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { Router } from '@angular/router';
-import { BluetoothService } from '../../services/bluetooth';
+import { BluetoothService } from '../../services/bluetooth.service';
 import { pipe, Subscription } from 'rxjs';
 import { MatIconModule } from '@angular/material/icon';
 import { AsyncPipe } from '@angular/common';
@@ -13,11 +13,12 @@ import { OnInit, OnDestroy } from '@angular/core';
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
 })
-export class HomeComponent implements OnInit, OnDestroy {
+  
+export class HomeComponent {
   protected router = inject(Router);
   protected bluetoothService = inject(BluetoothService);
 
-  label = '';
+  // label = '';
   private dataSubscription: Subscription | undefined;
 
   navigateToDetails(id: string) {
@@ -25,22 +26,20 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   arduinos = [
-    { id: '1', name: 'Arduino 1', status: 'Connected' },
-    { id: '2', name: 'Arduino 2', status: 'Connected' },
-    { id: '3', name: 'Arduino 3', status: 'Disconnected' },
+    { id: '1', name: 'Details', status: 'Connected' },
   ];
 
-  ngOnInit(): void {
-    this.dataSubscription = this.bluetoothService.data$.subscribe(
-      (label) => (this.label = label)
-    );
-  }
+  // ngOnInit(): void {
+  //   this.dataSubscription = this.bluetoothService.data$.subscribe(
+  //     (label) => (this.label = label)
+  //   );
+  // }
 
-  ngOnDestroy(): void {
-    if (this.dataSubscription) {
-      this.dataSubscription.unsubscribe();
-    }
-  }
+  // ngOnDestroy(): void {
+  //   if (this.dataSubscription) {
+  //     this.dataSubscription.unsubscribe();
+  //   }
+  // }
 
   async connect() {
     await this.bluetoothService.tryConnect();

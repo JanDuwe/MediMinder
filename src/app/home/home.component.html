@@ -16,4 +16,4 @@
 </div>
 
 <p>{{ connectionMessage }}</p>
-<p>Received Data: {{ label }}</p>
+<p>Received Data: {{ bluetoothService.data$ | async }}</p>
