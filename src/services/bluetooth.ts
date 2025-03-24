@@ -1,7 +1,7 @@
 /// <reference types="web-bluetooth" />
 
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -16,6 +16,8 @@ export class BluetoothService {
   private device: BluetoothDevice | null = null;
   private server: BluetoothRemoteGATTServer | null = null;
   private static instance: BluetoothService;
+  private characteristic: BluetoothRemoteGATTCharacteristic | null = null;
+  public data$ = new Subject<string>();
 
   private constructor() {}
 
@@ -91,10 +93,17 @@ export class BluetoothService {
         characteristic.addEventListener(
           'characteristicvaluechanged',
           (event) => {
-            const value = (
-              event.target as BluetoothRemoteGATTCharacteristic
-            ).value?.getUint16(0, true);
-            this.newValueObservable.next(value ?? null);
+            const value = (event.target as BluetoothRemoteGATTCharacteristic)
+              .value;
+
+            if (value) {
+              // Annahme: Die Daten werden als UTF-8-String empfangen
+              const decoder = new TextDecoder('utf-8');
+              const decodedString = decoder.decode(value);
+              this.data$.next(decodedString);
+            } else {
+              console.error('No value received from Bluetooth characteristic.');
+            }
           }
         );
         this.connectionStatus$.next(true);
