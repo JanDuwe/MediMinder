@@ -4,7 +4,7 @@ import { BluetoothService } from '../../services/bluetooth.service';
 import { BehaviorSubject, filter, tap } from 'rxjs';
 import { Classification } from '../types/classification.enum';
 import { AsyncPipe, CommonModule } from '@angular/common';
-import { TimestampedLog } from '../types/timestamp.interface';
+import { Log, TimestampedLog } from '../types/interfaces';
 
 @Component({
   selector: 'app-details',
@@ -22,16 +22,18 @@ export class DetailsComponent implements OnInit {
   ngOnInit(): void {
     this.bluetoothService.data$
       .pipe(
-        filter((data) => data === Classification.INTAKE_MEDICINE),
+        filter((data) => data.label === Classification.INTAKE_MEDICINE),
         tap((data) => {
           this.intakeMedicineLog.next([
-            { timestamp: new Date(), log: data },
+            { timestamp: new Date(), ...data } as TimestampedLog,
             ...this.intakeMedicineLog.getValue(),
           ]);
         })
       )
       .subscribe();
   }
+
+  
 
   viewFullLog(): void {
     this.showLogs = true;

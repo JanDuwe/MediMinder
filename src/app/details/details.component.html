@@ -23,7 +23,7 @@
         </mat-card-header>
         <mat-card-content>
             @for (entry of intakeMedicineLog.getValue().slice(0,3); track entry) {
-            <p>{{entry.timestamp }}: {{ entry.log }}</p>
+            <p>{{entry.timestamp }}: {{ entry.label }}</p>
             }
         </mat-card-content>
         <mat-card-actions align="end">
@@ -39,7 +39,7 @@
         </mat-card-header>
         <mat-card-content>
             @for (entry of intakeMedicineLog | async; track entry) {
-            <p>{{entry.timestamp }}: {{ entry.log }}</p>
+            <p>{{entry.timestamp }}: {{ entry.label }}</p>
             }
         </mat-card-content>
         <mat-card-actions align="end">

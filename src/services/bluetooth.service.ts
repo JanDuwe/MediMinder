@@ -2,6 +2,7 @@
 
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { Log } from '../app/types/interfaces';
 
 @Injectable({
   providedIn: 'root',
@@ -17,7 +18,7 @@ export class BluetoothService {
   private server: BluetoothRemoteGATTServer | null = null;
   private static instance: BluetoothService;
   private characteristic: BluetoothRemoteGATTCharacteristic | null = null;
-  public data$ = new Subject<string>();
+  public data$ = new Subject<Log>();
 
   private constructor() {}
 
@@ -97,10 +98,10 @@ export class BluetoothService {
               .value;
 
             if (value) {
-              // Annahme: Die Daten werden als UTF-8-String empfangen
-              const decoder = new TextDecoder('utf-8');
-              const decodedString = decoder.decode(value);
-              this.data$.next(decodedString);
+              // Annahme: Die Daten werden als JSON empfangen
+              // const decoder = new TextDecoder('utf-8');
+              // const decodedString = decoder.decode(value);
+              this.data$.next(value as unknown as Log); 
             } else {
               console.error('No value received from Bluetooth characteristic.');
             }
