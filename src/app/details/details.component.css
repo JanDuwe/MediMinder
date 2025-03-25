@@ -5,18 +5,28 @@
     gap: 1rem;
 }
 
+.intakes {
+    display: flex;
+    padding: 7rem;
+    justify-content: center;
+}
 
+.protocol {
+    padding: 7rem;
+}
+
+table {
+    padding:1.5rem;
+}
 
 mat-card {
-    width: 80%;
-    max-width: 800px;
     display: flex;
     flex-direction: column;
     align-items: center;
     padding: 1.5rem;
+    margin: 3rem;
 
     &.dose-information {
-        font-size: 1.5rem;
     }
 
     &.taken {

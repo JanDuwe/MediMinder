@@ -1,0 +1,22 @@
+<div class="app-header">
+    <div class="left">
+        <div class="logo">
+            <img src="../../icons/icon-192x192.png" alt="MediMinder Logo" />
+        </div>
+        <div class="info">
+            <h1>MediMinder</h1>
+            <p>Patient: Max Mustermann</p>
+            <p>Pflege: Max Mustermann</p>
+        </div>
+    </div>
+    <div class="right">
+        <div class="date-time-wrapper">
+            <div class="time">{{date | date: "HH:mm:ss"}}</div>
+            <div class="date">{{date | date: "dd.MM.yyyy"}}</div>
+        </div>
+        <div class="bluetooth-connection-status">
+            <mat-card><mat-card-content><mat-icon>bluetooth</mat-icon> Arduino verbunden</mat-card-content></mat-card>
+            
+        </div>
+    </div>
+</div>

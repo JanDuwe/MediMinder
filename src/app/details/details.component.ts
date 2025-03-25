@@ -3,12 +3,21 @@ import { MatCardModule } from '@angular/material/card';
 import { BluetoothService } from '../../services/bluetooth.service';
 import { BehaviorSubject, filter, tap } from 'rxjs';
 import { Classification } from '../types/classification.enum';
-import { AsyncPipe, CommonModule } from '@angular/common';
+import { AsyncPipe, CommonModule, DatePipe } from '@angular/common';
 import { Log, TimestampedLog } from '../types/interfaces';
+import { HeaderComponent } from '../header/header.component';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 
 @Component({
   selector: 'app-details',
-  imports: [MatCardModule, AsyncPipe, CommonModule],
+  imports: [
+    MatCardModule,
+    AsyncPipe,
+    CommonModule,
+    HeaderComponent,
+    MatTableModule,
+    DatePipe,
+  ],
   templateUrl: './details.component.html',
   styleUrl: './details.component.css',
 })
@@ -18,11 +27,26 @@ export class DetailsComponent implements OnInit {
 
   public showLogs = false;
   currentDate = new Date();
+  dataSource = new MatTableDataSource<TimestampedLog>();
+  displayedColumns: string[] = [
+    'ID',
+    'date',
+    'time',
+    'label',
+    'accuracyIntakeMedicine',
+    'accuracySlide',
+    'accuracyPutAway',
+    'accuracyMotionless',
+  ];
 
   ngOnInit(): void {
     this.bluetoothService.data$
       .pipe(
-        filter((data) => data.label === Classification.INTAKE_MEDICINE),
+        filter(
+          (data) =>
+            data.label === Classification.INTAKE_MEDICINE ||
+            data.label === Classification.SLIDE
+        ),
         tap((data) => {
           this.intakeMedicineLog.next([
             { timestamp: new Date(), ...data } as TimestampedLog,
@@ -31,9 +55,11 @@ export class DetailsComponent implements OnInit {
         })
       )
       .subscribe();
-  }
 
-  
+    this.intakeMedicineLog.subscribe((logs) => {
+      this.dataSource.data = logs;
+    });
+  }
 
   viewFullLog(): void {
     this.showLogs = true;
@@ -104,7 +130,7 @@ export class DetailsComponent implements OnInit {
         this.currentDate.getFullYear(),
         this.currentDate.getMonth(),
         this.currentDate.getDate(),
-        18,
+        22,
         0,
         0,
         0
@@ -156,7 +182,11 @@ export class DetailsComponent implements OnInit {
 
   private isLogAvailableForTimeframe(start: Date, end: Date): boolean {
     return this.intakeMedicineLog.getValue().some((log) => {
-      return log.timestamp >= start && log.timestamp <= end;
+      return (
+        log.timestamp >= start &&
+        log.timestamp <= end &&
+        log.label === Classification.INTAKE_MEDICINE
+      );
     });
   }
 
@@ -191,6 +221,63 @@ export class DetailsComponent implements OnInit {
       return 'not-taken';
     } else {
       return '';
+    }
+  }
+
+  getMorningIntakeTime(): string {
+    const logs = this.intakeMedicineLog.getValue();
+    const morningLogs = logs.filter((log) => {
+      const hours = log.timestamp.getHours();
+      return hours >= 8 && hours < 9;
+    });
+
+    if (morningLogs.length > 0) {
+      const firstLogTime = morningLogs[0].timestamp;
+      return firstLogTime.toLocaleTimeString('de-DE', {
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+      });
+    } else {
+      return '---';
+    }
+  }
+
+  getNoonIntakeTime(): string {
+    const logs = this.intakeMedicineLog.getValue();
+    const noonLogs = logs.filter((log) => {
+      const hours = log.timestamp.getHours();
+      return hours >= 11 && hours < 12;
+    });
+
+    if (noonLogs.length > 0) {
+      const firstLogTime = noonLogs[0].timestamp;
+      return firstLogTime.toLocaleTimeString('de-DE', {
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+      });
+    } else {
+      return '---';
+    }
+  }
+
+  getEveningIntakeTime(): string {
+    const logs = this.intakeMedicineLog.getValue();
+    const eveningLogs = logs.filter((log) => {
+      const hours = log.timestamp.getHours();
+      return hours >= 17 && hours < 22;
+    });
+
+    if (eveningLogs.length > 0) {
+      const firstLogTime = eveningLogs[0].timestamp;
+      return firstLogTime.toLocaleTimeString('de-DE', {
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+      });
+    } else {
+      return '---';
     }
   }
 }

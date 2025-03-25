@@ -99,9 +99,19 @@ export class BluetoothService {
 
             if (value) {
               // Annahme: Die Daten werden als JSON empfangen
-              // const decoder = new TextDecoder('utf-8');
-              // const decodedString = decoder.decode(value);
-              this.data$.next(value as unknown as Log); 
+              const decoder = new TextDecoder('utf-8');
+              let decodedString = decoder.decode(value);
+
+              if (
+                decodedString.startsWith('"') &&
+                decodedString.endsWith('"')
+              ) {
+                decodedString = decodedString.slice(1, -1);
+              }
+
+              const jsonData: Log = JSON.parse(decodedString);
+              this.data$.next(jsonData);
+              console.log('Received json value:', { jsonData });
             } else {
               console.error('No value received from Bluetooth characteristic.');
             }

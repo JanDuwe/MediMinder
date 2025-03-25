@@ -13,18 +13,15 @@ import { OnInit, OnDestroy } from '@angular/core';
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
 })
-  
 export class HomeComponent {
   protected router = inject(Router);
   protected bluetoothService = inject(BluetoothService);
 
   navigateToDetails(id: string) {
-    this.router.navigate(['/details', id]);
+    this.router.navigate(['/details']);
   }
 
-  arduinos = [
-    { id: '1', name: 'Details', status: 'Connected' },
-  ];
+  arduinos = [{ id: '1', name: 'Details', status: 'Connected' }];
 
   async connect() {
     await this.bluetoothService.tryConnect();
@@ -35,9 +32,9 @@ export class HomeComponent {
 
   private updateConnectionMessage(): void {
     if (this.bluetoothService.connectionStatus$.getValue()) {
-      this.connectionMessage = 'Bluetooth device connected successfully';
+      this.connectionMessage = 'Arduino verbunden';
     } else {
-      this.connectionMessage = 'No Bluetooth device connected';
+      this.connectionMessage = 'Kein Verbindung';
     }
   }
 }
