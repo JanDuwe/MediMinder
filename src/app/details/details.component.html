@@ -1,50 +1,50 @@
 <div class="container">
     @if (!showLogs){
-        <h1>Medicine Intake Details</h1>
-        <mat-card appearance="outlined" [ngClass]="{'taken': wasMorningMedicineTaken(), 'not-taken': !wasMorningMedicineTaken(), 'dose-information': true }">
-            Morning Dose: {{ wasMorningMedicineTaken() ? 'Not taken' : 'Not Taken'}}
-        </mat-card>
-        <br>
-        <mat-card appearance="outlined" [ngClass]="{'taken': wasNoonMedicineTaken(), 'not-taken': !wasNoonMedicineTaken(), 'dose-information': true }">
-            Noon Dose: {{ wasNoonMedicineTaken() ? 'Taken' : 'Not Taken' }}
-        </mat-card>
-        <br>
-        <mat-card appearance="outlined" [ngClass]="{'taken': wasEveningMedicineTaken(), 'not-taken': !wasEveningMedicineTaken(), 'dose-information': true }">
-            Evening Dose: {{ wasEveningMedicineTaken() ? 'Taken' : 'Not Taken'}}
-        </mat-card>
-        <br>
-        <mat-card appearance="outlined">
-            <mat-card-header>
-                <mat-card-title>Logging Information</mat-card-title>
-                <mat-card-subtitle>Recent Events:</mat-card-subtitle>
-            </mat-card-header>
-            <mat-card-content>
-                @for (entry of intakeMedicineLog.getValue().slice(0,3); track entry) {
-                <p>{{entry.timestamp }}: {{ entry.log }}</p>
-                }
-            </mat-card-content>
-            <mat-card-actions align="end">
-                <button (click)="viewFullLog()" mat-button color="accent">View full log</button>
-            </mat-card-actions>
-        </mat-card>
+    <h1>Medicine Intake Details</h1>
+    <mat-card appearance="outlined"
+        [ngClass]="{'taken': getMorningClass() === 'taken', 'not-taken': getMorningClass() === 'not-taken', 'dose-information': true }">
+        Morning Dose: {{ wasMorningMedicineTaken() ? 'Taken' : 'Not Taken'}}
+    </mat-card>
+    <br>
+    <mat-card appearance="outlined"
+        [ngClass]="{'taken': getNoonClass() === 'taken', 'not-taken': getNoonClass() === 'not-taken', 'dose-information': true }">
+        Noon Dose: {{ wasNoonMedicineTaken() ? 'Taken' : 'Not Taken' }}
+    </mat-card>
+    <br>
+    <mat-card appearance="outlined"
+        [ngClass]="{'taken': getEveningClass() === 'taken', 'not-taken': getEveningClass() === 'not-taken', 'dose-information': true }">
+        Evening Dose: {{ wasEveningMedicineTaken() ? 'Taken' : 'Not Taken'}}
+    </mat-card>
+    <br>
+    <mat-card appearance="outlined">
+        <mat-card-header>
+            <mat-card-title>Logging Information</mat-card-title>
+            <mat-card-subtitle>Recent Events:</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+            @for (entry of intakeMedicineLog.getValue().slice(0,3); track entry) {
+            <p>{{entry.timestamp }}: {{ entry.log }}</p>
+            }
+        </mat-card-content>
+        <mat-card-actions align="end">
+            <button (click)="viewFullLog()" mat-button color="accent">View full log</button>
+        </mat-card-actions>
+    </mat-card>
     }
     @else {
-        <mat-card appearance="outlined">
-            <mat-card-header>
-                <mat-card-title>Logging Information</mat-card-title>
-                <mat-card-subtitle>Recent Events:</mat-card-subtitle>
-            </mat-card-header>
-            <mat-card-content>
-                @for (entry of intakeMedicineLog | async; track entry) {
-                <p>{{entry.timestamp }}: {{ entry.log }}</p>
-                }
-            </mat-card-content>
-            <mat-card-actions align="end">
-                <button (click)="exitFullLog()" mat-button color="accent">Back</button>
-            </mat-card-actions>
-        </mat-card>
+    <mat-card appearance="outlined">
+        <mat-card-header>
+            <mat-card-title>Logging Information</mat-card-title>
+            <mat-card-subtitle>Recent Events:</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+            @for (entry of intakeMedicineLog | async; track entry) {
+            <p>{{entry.timestamp }}: {{ entry.log }}</p>
+            }
+        </mat-card-content>
+        <mat-card-actions align="end">
+            <button (click)="exitFullLog()" mat-button color="accent">Back</button>
+        </mat-card-actions>
+    </mat-card>
     }
-    
 </div>
-
-

@@ -1,11 +1,10 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { BluetoothService } from '../../services/bluetooth.service';
-import { BehaviorSubject, filter, ReplaySubject, tap } from 'rxjs';
+import { BehaviorSubject, filter, tap } from 'rxjs';
 import { Classification } from '../types/classification.enum';
 import { AsyncPipe, CommonModule } from '@angular/common';
 import { TimestampedLog } from '../types/timestamp.interface';
-import { SwPush } from '@angular/service-worker';
 
 @Component({
   selector: 'app-details',
@@ -44,46 +43,112 @@ export class DetailsComponent implements OnInit {
 
   wasMorningMedicineTaken(): boolean {
     return this.isLogAvailableForTimeframe(
-      new Date(this.currentDate.setHours(8, 0, 0, 0)),
-      new Date(this.currentDate.setHours(9, 0, 0, 0))
+      new Date(
+        this.currentDate.getFullYear(),
+        this.currentDate.getMonth(),
+        this.currentDate.getDate(),
+        8,
+        0,
+        0,
+        0
+      ),
+      new Date(
+        this.currentDate.getFullYear(),
+        this.currentDate.getMonth(),
+        this.currentDate.getDate(),
+        9,
+        0,
+        0,
+        0
+      )
     );
   }
 
   wasNoonMedicineTaken(): boolean {
     return this.isLogAvailableForTimeframe(
-      new Date(this.currentDate.setHours(11, 0, 0, 0)),
-      new Date(this.currentDate.setHours(12, 0, 0, 0))
+      new Date(
+        this.currentDate.getFullYear(),
+        this.currentDate.getMonth(),
+        this.currentDate.getDate(),
+        11,
+        0,
+        0,
+        0
+      ),
+      new Date(
+        this.currentDate.getFullYear(),
+        this.currentDate.getMonth(),
+        this.currentDate.getDate(),
+        14,
+        0,
+        0,
+        0
+      )
     );
   }
 
   wasEveningMedicineTaken(): boolean {
     return this.isLogAvailableForTimeframe(
-      new Date(this.currentDate.setHours(17, 0, 0, 0)),
-      new Date(this.currentDate.setHours(18, 0, 0, 0))
+      new Date(
+        this.currentDate.getFullYear(),
+        this.currentDate.getMonth(),
+        this.currentDate.getDate(),
+        17,
+        0,
+        0,
+        0
+      ),
+      new Date(
+        this.currentDate.getFullYear(),
+        this.currentDate.getMonth(),
+        this.currentDate.getDate(),
+        18,
+        0,
+        0,
+        0
+      )
     );
   }
 
   morningMedicineDue(): boolean {
-    return (
-      this.hasTimeframePassed(
-        new Date(this.currentDate.setHours(9, 0, 0, 0))
-      ) && !this.wasMorningMedicineTaken()
+    return this.hasTimeframePassed(
+      new Date(
+        this.currentDate.getFullYear(),
+        this.currentDate.getMonth(),
+        this.currentDate.getDate(),
+        9,
+        0,
+        0,
+        0
+      )
     );
   }
 
   noonMedicineDue(): boolean {
-    return (
-      this.hasTimeframePassed(
-        new Date(this.currentDate.setHours(12, 0, 0, 0))
-      ) && !this.wasNoonMedicineTaken()
+    return this.hasTimeframePassed(
+      new Date(
+        this.currentDate.getFullYear(),
+        this.currentDate.getMonth(),
+        this.currentDate.getDate(),
+        14,
+        0,
+        0,
+        0
+      )
     );
   }
 
   eveningMedicineDue(): boolean {
-    return (
-      this.hasTimeframePassed(
-        new Date(this.currentDate.setHours(18, 0, 0, 0))
-      ) && !this.wasEveningMedicineTaken()
+    return this.hasTimeframePassed(
+      new Date(
+        this.currentDate.getFullYear(),
+        this.currentDate.getMonth(),
+        this.currentDate.getDate(),
+        18,
+        0,
+        0,
+        0
+      )
     );
   }
 
@@ -95,5 +160,35 @@ export class DetailsComponent implements OnInit {
 
   hasTimeframePassed(end: Date): boolean {
     return this.currentDate > end;
+  }
+
+  getMorningClass(): string {
+    if (this.wasMorningMedicineTaken()) {
+      return 'taken';
+    } else if (this.morningMedicineDue() && !this.wasMorningMedicineTaken()) {
+      return 'not-taken';
+    } else {
+      return '';
+    }
+  }
+
+  getNoonClass(): string {
+    if (this.wasNoonMedicineTaken()) {
+      return 'taken';
+    } else if (this.noonMedicineDue() && !this.wasNoonMedicineTaken()) {
+      return 'not-taken';
+    } else {
+      return '';
+    }
+  }
+
+  getEveningClass(): string {
+    if (this.wasEveningMedicineTaken()) {
+      return 'taken';
+    } else if (this.eveningMedicineDue() && !this.wasEveningMedicineTaken()) {
+      return 'not-taken';
+    } else {
+      return '';
+    }
   }
 }
