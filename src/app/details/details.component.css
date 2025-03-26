@@ -7,7 +7,7 @@
 
 .intakes {
     display: flex;
-    padding: 3rem 7rem 3rem 7rem;
+    padding: 0rem 7rem 0rem 7rem;
     justify-content: center;
 }
 
@@ -59,4 +59,8 @@ mat-card {
     &.not-taken {
         background-color: #ff6f6f;
     }
+}
+
+.mat-mdc-raised-button:not(:disabled) {
+    color: black;
 }

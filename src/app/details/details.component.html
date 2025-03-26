@@ -18,7 +18,7 @@
                         {{ wasNoonMedicineTaken() ? 'Einnahme erfolgt.' : 'Einnahme nicht erfolgt!'}}
                     </mat-card-title>
                     <mat-card-subtitle>
-                        Plan: 11:00 - 12:00 Uhr<br>
+                        Plan: 10:00 - 14:00 Uhr<br>
                         Einnahme: {{ getNoonIntakeTime() }}
                     </mat-card-subtitle>
                 </mat-card>
@@ -118,7 +118,7 @@
                         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
                     </table>
                 </div>
-                <button (click)="exitFullLog()" mat-button color="accent">Zurück</button>
+                <button (click)="exitFullLog()" mat-raised-button color="accent">Zurück</button>
             </div>
         }
     </div>

@@ -7,6 +7,7 @@ import { AsyncPipe, CommonModule, DatePipe } from '@angular/common';
 import { Log, TimestampedLog } from '../types/interfaces';
 import { HeaderComponent } from '../header/header.component';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+
 import { MatButtonModule } from '@angular/material/button';
 
 @Component({
@@ -51,7 +52,8 @@ export class DetailsComponent implements OnInit {
         filter(
           (data) =>
             data.label === Classification.INTAKE_MEDICINE ||
-            data.label === Classification.SLIDE
+            data.label === Classification.SLIDE ||
+            data.label === Classification.PUT_AWAY
         ),
         tap((data) => {
           this.intakeMedicineLog.next([
@@ -83,10 +85,7 @@ export class DetailsComponent implements OnInit {
 
   addEntryManually(label: string, uhrzeit: string): void {
     let enumlabel = label as Classification;
-    console.log('Uhrzeit: ' + uhrzeit);
-    for (let i = 0; i < uhrzeit.split(':').length; i++) {
-      console.log('Uhrzeit[' + i + ']: ' + uhrzeit.split(':')[i]);
-    }
+
     const out: TimestampedLog = {
       label: enumlabel,
       timestamp: new Date(
@@ -135,7 +134,7 @@ export class DetailsComponent implements OnInit {
         this.currentDate.getFullYear(),
         this.currentDate.getMonth(),
         this.currentDate.getDate(),
-        11,
+        10,
         0,
         0,
         0
@@ -144,7 +143,7 @@ export class DetailsComponent implements OnInit {
         this.currentDate.getFullYear(),
         this.currentDate.getMonth(),
         this.currentDate.getDate(),
-        12,
+        14,
         0,
         0,
         0
@@ -158,7 +157,7 @@ export class DetailsComponent implements OnInit {
         this.currentDate.getFullYear(),
         this.currentDate.getMonth(),
         this.currentDate.getDate(),
-        15,
+        18,
         0,
         0,
         0
@@ -167,7 +166,7 @@ export class DetailsComponent implements OnInit {
         this.currentDate.getFullYear(),
         this.currentDate.getMonth(),
         this.currentDate.getDate(),
-        22,
+        19,
         0,
         0,
         0
@@ -195,7 +194,7 @@ export class DetailsComponent implements OnInit {
         this.currentDate.getFullYear(),
         this.currentDate.getMonth(),
         this.currentDate.getDate(),
-        12,
+        14,
         0,
         0,
         0
@@ -209,7 +208,7 @@ export class DetailsComponent implements OnInit {
         this.currentDate.getFullYear(),
         this.currentDate.getMonth(),
         this.currentDate.getDate(),
-        22,
+        19,
         0,
         0,
         0
@@ -265,7 +264,13 @@ export class DetailsComponent implements OnInit {
     let logs = this.intakeMedicineLog.getValue();
     let morningLogs = logs.filter((log) => {
       let hours = log.timestamp.getHours();
-      return hours >= 7 && hours <= 8;
+      let minutes = log.timestamp.getMinutes();
+      return (
+        hours >= 7 &&
+        hours <= 8 &&
+        (hours !== 8 || minutes <= 0) &&
+        log.label === Classification.INTAKE_MEDICINE
+      );
     });
 
     if (morningLogs.length > 0) {
@@ -284,7 +289,13 @@ export class DetailsComponent implements OnInit {
     let logs = this.intakeMedicineLog.getValue();
     let noonLogs = logs.filter((log) => {
       let hours = log.timestamp.getHours();
-      return hours >= 11 && hours <= 12;
+      let minutes = log.timestamp.getMinutes();
+      return (
+        hours >= 10 &&
+        hours <= 14 &&
+        (hours !== 14 || minutes <= 0) &&
+        log.label === Classification.INTAKE_MEDICINE
+      );
     });
 
     if (noonLogs.length > 0) {
@@ -303,7 +314,13 @@ export class DetailsComponent implements OnInit {
     let logs = this.intakeMedicineLog.getValue();
     let eveningLogs = logs.filter((log) => {
       let hours = log.timestamp.getHours();
-      return hours >= 15 && hours <= 22;
+      let minutes = log.timestamp.getMinutes();
+      return (
+        hours >= 18 &&
+        hours <= 19 &&
+        (hours !== 19 || minutes <= 0) &&
+        log.label === Classification.INTAKE_MEDICINE
+      );
     });
 
     if (eveningLogs.length > 0) {
