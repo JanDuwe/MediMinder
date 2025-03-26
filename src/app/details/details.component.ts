@@ -7,6 +7,7 @@ import { AsyncPipe, CommonModule, DatePipe } from '@angular/common';
 import { Log, TimestampedLog } from '../types/interfaces';
 import { HeaderComponent } from '../header/header.component';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-details',
@@ -17,6 +18,7 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
     HeaderComponent,
     MatTableModule,
     DatePipe,
+    MatButtonModule,
   ],
   templateUrl: './details.component.html',
   styleUrl: './details.component.css',
@@ -29,7 +31,6 @@ export class DetailsComponent implements OnInit {
   currentDate = new Date();
   dataSource = new MatTableDataSource<TimestampedLog>();
   displayedColumns: string[] = [
-    'ID',
     'date',
     'time',
     'label',
@@ -38,6 +39,11 @@ export class DetailsComponent implements OnInit {
     'accuracyPutAway',
     'accuracyMotionless',
   ];
+
+  label: string = '';
+  uhrzeit: string = '';
+
+  Classification = Classification;
 
   ngOnInit(): void {
     this.bluetoothService.data$
@@ -57,16 +63,47 @@ export class DetailsComponent implements OnInit {
       .subscribe();
 
     this.intakeMedicineLog.subscribe((logs) => {
-      this.dataSource.data = logs;
+      this.dataSource.data = this.showLogs ? logs : logs.slice(0, 5);
     });
   }
 
   viewFullLog(): void {
     this.showLogs = true;
+    this.updateTableData(this.intakeMedicineLog.getValue());
   }
 
   exitFullLog(): void {
     this.showLogs = false;
+    this.updateTableData(this.intakeMedicineLog.getValue());
+  }
+
+  updateTableData(logs: TimestampedLog[]) {
+    this.dataSource.data = this.showLogs ? logs : logs.slice(0, 5);
+  }
+
+  addEntryManually(label: string, uhrzeit: string): void {
+    let enumlabel = label as Classification;
+    console.log('Uhrzeit: ' + uhrzeit);
+    for (let i = 0; i < uhrzeit.split(':').length; i++) {
+      console.log('Uhrzeit[' + i + ']: ' + uhrzeit.split(':')[i]);
+    }
+    const out: TimestampedLog = {
+      label: enumlabel,
+      timestamp: new Date(
+        this.currentDate.getFullYear(),
+        this.currentDate.getMonth(),
+        this.currentDate.getDate(),
+        Number(uhrzeit.split(':')[0]),
+        Number(uhrzeit.split(':')[1]),
+        Number(uhrzeit.split(':')[2]),
+        0
+      ),
+      accuracy_intake_medicine: 0,
+      accuracy_motionless: 0,
+      accuracy_put_away: 0,
+      accuracy_slide: 0,
+    };
+    this.intakeMedicineLog.next([out, ...this.intakeMedicineLog.getValue()]);
   }
 
   wasMorningMedicineTaken(): boolean {
@@ -75,7 +112,7 @@ export class DetailsComponent implements OnInit {
         this.currentDate.getFullYear(),
         this.currentDate.getMonth(),
         this.currentDate.getDate(),
-        8,
+        7,
         0,
         0,
         0
@@ -84,7 +121,7 @@ export class DetailsComponent implements OnInit {
         this.currentDate.getFullYear(),
         this.currentDate.getMonth(),
         this.currentDate.getDate(),
-        9,
+        8,
         0,
         0,
         0
@@ -107,7 +144,7 @@ export class DetailsComponent implements OnInit {
         this.currentDate.getFullYear(),
         this.currentDate.getMonth(),
         this.currentDate.getDate(),
-        14,
+        12,
         0,
         0,
         0
@@ -121,7 +158,7 @@ export class DetailsComponent implements OnInit {
         this.currentDate.getFullYear(),
         this.currentDate.getMonth(),
         this.currentDate.getDate(),
-        17,
+        15,
         0,
         0,
         0
@@ -144,7 +181,7 @@ export class DetailsComponent implements OnInit {
         this.currentDate.getFullYear(),
         this.currentDate.getMonth(),
         this.currentDate.getDate(),
-        9,
+        8,
         0,
         0,
         0
@@ -158,7 +195,7 @@ export class DetailsComponent implements OnInit {
         this.currentDate.getFullYear(),
         this.currentDate.getMonth(),
         this.currentDate.getDate(),
-        14,
+        12,
         0,
         0,
         0
@@ -172,7 +209,7 @@ export class DetailsComponent implements OnInit {
         this.currentDate.getFullYear(),
         this.currentDate.getMonth(),
         this.currentDate.getDate(),
-        18,
+        22,
         0,
         0,
         0
@@ -225,10 +262,10 @@ export class DetailsComponent implements OnInit {
   }
 
   getMorningIntakeTime(): string {
-    const logs = this.intakeMedicineLog.getValue();
-    const morningLogs = logs.filter((log) => {
-      const hours = log.timestamp.getHours();
-      return hours >= 8 && hours < 9;
+    let logs = this.intakeMedicineLog.getValue();
+    let morningLogs = logs.filter((log) => {
+      let hours = log.timestamp.getHours();
+      return hours >= 7 && hours <= 8;
     });
 
     if (morningLogs.length > 0) {
@@ -244,10 +281,10 @@ export class DetailsComponent implements OnInit {
   }
 
   getNoonIntakeTime(): string {
-    const logs = this.intakeMedicineLog.getValue();
-    const noonLogs = logs.filter((log) => {
-      const hours = log.timestamp.getHours();
-      return hours >= 11 && hours < 12;
+    let logs = this.intakeMedicineLog.getValue();
+    let noonLogs = logs.filter((log) => {
+      let hours = log.timestamp.getHours();
+      return hours >= 11 && hours <= 12;
     });
 
     if (noonLogs.length > 0) {
@@ -263,10 +300,10 @@ export class DetailsComponent implements OnInit {
   }
 
   getEveningIntakeTime(): string {
-    const logs = this.intakeMedicineLog.getValue();
-    const eveningLogs = logs.filter((log) => {
-      const hours = log.timestamp.getHours();
-      return hours >= 17 && hours < 22;
+    let logs = this.intakeMedicineLog.getValue();
+    let eveningLogs = logs.filter((log) => {
+      let hours = log.timestamp.getHours();
+      return hours >= 15 && hours <= 22;
     });
 
     if (eveningLogs.length > 0) {

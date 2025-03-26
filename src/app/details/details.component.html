@@ -1,76 +1,125 @@
 <div>
     <div class="body">
-        <div class="intakes">
-            <mat-card appearance="outlined"
-                [ngClass]="{'taken': getMorningClass() === 'taken', 'not-taken': getMorningClass() === 'not-taken', 'dose-information': true }">
-                <mat-card-title>
-                    {{ wasMorningMedicineTaken() ? 'Einnahme erfolgt.' : 'Einnahme nicht erfolgt!'}}
-                </mat-card-title>
-                <mat-card-subtitle>
-                    Plan: 07:00 - 08:00 Uhr<br>
-                    Einnahme: {{ getMorningIntakeTime() }}
-                </mat-card-subtitle>
-            </mat-card>
-            <mat-card appearance="outlined"
-                [ngClass]="{'taken': getNoonClass() === 'taken', 'not-taken': getNoonClass() === 'not-taken', 'dose-information': true }">
-                <mat-card-title>
-                    {{ wasNoonMedicineTaken() ? 'Einnahme erfolgt.' : 'Einnahme nicht erfolgt!'}}
-                </mat-card-title>
-                <mat-card-subtitle>
-                    Plan: 11:00 - 12:00 Uhr<br>
-                    Einnahme: {{ getNoonIntakeTime() }}
-                </mat-card-subtitle>
-            </mat-card>
-            <mat-card appearance="outlined"
-                [ngClass]="{'taken': getEveningClass() === 'taken', 'not-taken': getEveningClass() === 'not-taken', 'dose-information': true }">
-                <mat-card-title>
-                    {{ wasEveningMedicineTaken() ? 'Einnahme erfolgt.' : 'Einnahme nicht erfolgt!'}}
-                </mat-card-title>
-                <mat-card-subtitle>
-                    Plan: 18:00 - 19:00 Uhr<br>
-                    Einnahme: {{ getEveningIntakeTime() }}
-                </mat-card-subtitle>
-            </mat-card>
-        </div>
-        <div class="protocol">
-            <h2>Einnahmeprotokoll</h2>
-            <table mat-table [dataSource]="dataSource" >
-                <ng-container matColumnDef="ID">
-                    <th mat-header-cell *matHeaderCellDef> # </th>
-                    <td mat-cell *matCellDef="let element"> {{ element.ID }} </td>
-                </ng-container>
-                <ng-container matColumnDef="date">
-                    <th mat-header-cell *matHeaderCellDef> Datum </th>
-                    <td mat-cell *matCellDef="let element"> {{ element.timestamp | date:'dd.MM.yyyy' }} </td>
-                </ng-container>
-                <ng-container matColumnDef="time">
-                    <th mat-header-cell *matHeaderCellDef> Uhrzeit </th>
-                    <td mat-cell *matCellDef="let element"> {{ element.timestamp | date: "HH:mm:ss" }} </td>
-                </ng-container>
-                <ng-container matColumnDef="label">
-                    <th mat-header-cell *matHeaderCellDef> Label </th>
-                    <td mat-cell *matCellDef="let element"> {{ element.label }} </td>
-                </ng-container>
-                <ng-container matColumnDef="accuracyIntakeMedicine">
-                    <th mat-header-cell *matHeaderCellDef> Acc.: Intake Medicine </th>
-                    <td mat-cell *matCellDef="let element"> {{ element.accuracy_intake_medicine }} </td>
-                </ng-container>
-                <ng-container matColumnDef="accuracySlide">
-                    <th mat-header-cell *matHeaderCellDef> Acc.: Slide </th>
-                    <td mat-cell *matCellDef="let element"> {{ element.accuracy_slide }} </td>
-                </ng-container>
-                <ng-container matColumnDef="accuracyPutAway">
-                    <th mat-header-cell *matHeaderCellDef> Acc.: Put Away </th>
-                    <td mat-cell *matCellDef="let element"> {{ element.accuracy_put_away }} </td>
-                </ng-container>
-                <ng-container matColumnDef="accuracyMotionless">
-                    <th mat-header-cell *matHeaderCellDef> Acc.: Motionless </th>
-                    <td mat-cell *matCellDef="let element"> {{ element.accuracy_motionless }} </td>
-                </ng-container>
-                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-            </table>
-            <button (click)="viewFullLog()" mat-button color="accent">View full log</button>
-        </div>
+        @if (!showLogs){
+            <div class="intakes">
+                <mat-card appearance="outlined"
+                    [ngClass]="{'taken': getMorningClass() === 'taken', 'not-taken': getMorningClass() === 'not-taken', 'dose-information': true }">
+                    <mat-card-title>
+                        {{ wasMorningMedicineTaken() ? 'Einnahme erfolgt.' : 'Einnahme nicht erfolgt!'}}
+                    </mat-card-title>
+                    <mat-card-subtitle>
+                        Plan: 07:00 - 08:00 Uhr<br>
+                        Einnahme: {{ getMorningIntakeTime() }}
+                    </mat-card-subtitle>
+                </mat-card>
+                <mat-card appearance="outlined"
+                    [ngClass]="{'taken': getNoonClass() === 'taken', 'not-taken': getNoonClass() === 'not-taken', 'dose-information': true }">
+                    <mat-card-title>
+                        {{ wasNoonMedicineTaken() ? 'Einnahme erfolgt.' : 'Einnahme nicht erfolgt!'}}
+                    </mat-card-title>
+                    <mat-card-subtitle>
+                        Plan: 11:00 - 12:00 Uhr<br>
+                        Einnahme: {{ getNoonIntakeTime() }}
+                    </mat-card-subtitle>
+                </mat-card>
+                <mat-card appearance="outlined"
+                    [ngClass]="{'taken': getEveningClass() === 'taken', 'not-taken': getEveningClass() === 'not-taken', 'dose-information': true }">
+                    <mat-card-title>
+                        {{ wasEveningMedicineTaken() ? 'Einnahme erfolgt.' : 'Einnahme nicht erfolgt!'}}
+                    </mat-card-title>
+                    <mat-card-subtitle>
+                        Plan: 18:00 - 19:00 Uhr<br>
+                        Einnahme: {{ getEveningIntakeTime() }}
+                    </mat-card-subtitle>
+                </mat-card>
+            </div>
+            <div class="protocol">
+                <h2>Einnahmeprotokoll</h2>
+                <div class="table-wrapper">
+                    <table mat-table [dataSource]="dataSource">
+                        <ng-container matColumnDef="date">
+                            <th mat-header-cell *matHeaderCellDef> Datum </th>
+                            <td mat-cell *matCellDef="let element"> {{ element.timestamp | date:'dd.MM.yyyy' }} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="time">
+                            <th mat-header-cell *matHeaderCellDef> Uhrzeit </th>
+                            <td mat-cell *matCellDef="let element"> {{ element.timestamp | date: "HH:mm:ss" }} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="label">
+                            <th mat-header-cell *matHeaderCellDef> Label </th>
+                            <td mat-cell *matCellDef="let element"> {{ element.label }} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="accuracyIntakeMedicine">
+                            <th mat-header-cell *matHeaderCellDef> Acc.: Intake Medicine </th>
+                            <td mat-cell *matCellDef="let element"> {{ element.accuracy_intake_medicine }} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="accuracySlide">
+                            <th mat-header-cell *matHeaderCellDef> Acc.: Slide </th>
+                            <td mat-cell *matCellDef="let element"> {{ element.accuracy_slide }} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="accuracyPutAway">
+                            <th mat-header-cell *matHeaderCellDef> Acc.: Put Away </th>
+                            <td mat-cell *matCellDef="let element"> {{ element.accuracy_put_away }} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="accuracyMotionless">
+                            <th mat-header-cell *matHeaderCellDef> Acc.: Motionless </th>
+                            <td mat-cell *matCellDef="let element"> {{ element.accuracy_motionless }} </td>
+                        </ng-container>
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                    </table>
+                </div>
+                <button (click)="viewFullLog()" mat-raised-button color="accent">Zeige gesamte Logging Daten</button>
+                <button (click)="addEntryManually(label.value, uhrzeit.value)" mat-raised-button>Manueller Log Eintrag</button>
+                <input type="text" placeholder="HH:mm:ss" #uhrzeit name="uhrzeit"/>
+                <select #label>
+                    <option value="" disabled selected>Label</option>
+                    <option [value]="Classification.INTAKE_MEDICINE">intake medicine</option>
+                    <option [value]="Classification.PUT_AWAY">put away</option>
+                    <option [value]="Classification.SLIDE">slide</option>
+                    <option [value]="Classification.MOTIONLESS">motionless</option>
+                </select>
+            </div>
+        }
+        @else {
+            <div class="protocol">
+                <h2>Einnahmeprotokoll</h2>
+                <div class="table-wrapper">
+                    <table mat-table [dataSource]="dataSource">
+                        <ng-container matColumnDef="date">
+                            <th mat-header-cell *matHeaderCellDef> Datum </th>
+                            <td mat-cell *matCellDef="let element"> {{ element.timestamp | date:'dd.MM.yyyy' }} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="time">
+                            <th mat-header-cell *matHeaderCellDef> Uhrzeit </th>
+                            <td mat-cell *matCellDef="let element"> {{ element.timestamp | date: "HH:mm:ss" }} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="label">
+                            <th mat-header-cell *matHeaderCellDef> Label </th>
+                            <td mat-cell *matCellDef="let element"> {{ element.label }} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="accuracyIntakeMedicine">
+                            <th mat-header-cell *matHeaderCellDef> Acc.: Intake Medicine </th>
+                            <td mat-cell *matCellDef="let element"> {{ element.accuracy_intake_medicine }} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="accuracySlide">
+                            <th mat-header-cell *matHeaderCellDef> Acc.: Slide </th>
+                            <td mat-cell *matCellDef="let element"> {{ element.accuracy_slide }} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="accuracyPutAway">
+                            <th mat-header-cell *matHeaderCellDef> Acc.: Put Away </th>
+                            <td mat-cell *matCellDef="let element"> {{ element.accuracy_put_away }} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="accuracyMotionless">
+                            <th mat-header-cell *matHeaderCellDef> Acc.: Motionless </th>
+                            <td mat-cell *matCellDef="let element"> {{ element.accuracy_motionless }} </td>
+                        </ng-container>
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                    </table>
+                </div>
+                <button (click)="exitFullLog()" mat-button color="accent">Zurück</button>
+            </div>
+        }
     </div>
 </div>

@@ -7,17 +7,42 @@
 
 .intakes {
     display: flex;
-    padding: 7rem;
+    padding: 3rem 7rem 3rem 7rem;
     justify-content: center;
 }
 
 .protocol {
-    padding: 7rem;
+    padding: 3rem 7rem 3rem 7rem;
 }
 
-table {
-    padding:1.5rem;
+.protocol > * {
+    margin: 2rem 14rem;
 }
+
+.protocol > button:nth-of-type(2) {
+    margin: 0 14rem 0 2rem;
+    float: right;
+}
+
+.protocol > button:first-of-type {
+    margin: 0 3rem 0 14rem;
+}
+
+.protocol > input {
+    float: right;
+    margin: 1rem 2rem;
+}
+
+.protocol > select {
+    float: right;
+    margin: 1rem 2rem;
+}
+
+
+table {
+    margin: 0;
+}
+
 
 mat-card {
     display: flex;
@@ -25,9 +50,7 @@ mat-card {
     align-items: center;
     padding: 1.5rem;
     margin: 3rem;
-
-    &.dose-information {
-    }
+    width: 20rem;
 
     &.taken {
         background-color: #66e082;   

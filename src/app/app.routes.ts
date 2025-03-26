@@ -7,7 +7,7 @@ import { HeaderComponent } from './header/header.component';
 export const routes: Routes = [
   {
     path: '',
-    component: AppComponent,
+    component: HeaderComponent,
     children: [
       {
         path: '',
@@ -16,5 +16,15 @@ export const routes: Routes = [
       },
     ],
   },
-  { path: 'details', component: DetailsComponent },
+  {
+    path: 'details',
+    component: HeaderComponent,
+    children: [
+      {
+        path: '',
+        loadComponent: () =>
+          import('./details/details.component').then((c) => c.DetailsComponent),
+      },
+    ],
+  },
 ];

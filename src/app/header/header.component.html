@@ -1,7 +1,7 @@
 <div class="app-header">
     <div class="left">
         <div class="logo">
-            <img src="../../icons/icon-192x192.png" alt="MediMinder Logo" />
+            <img src="././icons/icon-192x192.png" alt="MediMinder Logo" />
         </div>
         <div class="info">
             <h1>MediMinder</h1>
@@ -15,8 +15,21 @@
             <div class="date">{{date | date: "dd.MM.yyyy"}}</div>
         </div>
         <div class="bluetooth-connection-status">
-            <mat-card><mat-card-content><mat-icon>bluetooth</mat-icon> Arduino verbunden</mat-card-content></mat-card>
-            
+            <mat-card>
+                <mat-card-content>
+                    @if (bluetoothService.connectionStatus$ | async) {
+                    <mat-icon>bluetooth_connected</mat-icon> Arduino verbunden
+                    } @else {
+                        <mat-icon>bluetooth_disabled</mat-icon>Nicht verbunden
+                    }
+                    
+                </mat-card-content>
+            </mat-card>            
         </div>
+    </div>
+</div>
+<div class="main-wrapper">
+    <div class="main-content-container">
+        <router-outlet></router-outlet>
     </div>
 </div>
