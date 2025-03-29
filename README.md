@@ -27,3 +27,7 @@ Als Entwicklungsumgebung für  die WebApp sowie das Deployment auf "Github Pages
 In diesem GitHub-Repository sind sowohl der Quellcode zum klassifizieren der Daten auf dem Arduino, als auch für die WebApp hinterlegt. 
 Das Verzeichnis für den Quellcode des Arduinos befindet sich unter [/MediMinder/Arduino/](https://github.com/JanDuwe/MediMinder/tree/main/Arduino), wobei das Verzeichnis "libraries" Erweiterungen enthält, die die Bluetooth Konnektivität des Arduinos bereitstellt, die Interaktion mit dem IMU-Sensor ermöglicht und die Klassifizierung über Edge Impulse bereitstellt. Das Verzeichnis "arduino_sketch" enthält den selbstgeschriebenen Quellcode, der zum flashen des Arduinos benutzt wurde. 
 Im Verzeichnis [/MediMinder/src/](https://github.com/JanDuwe/MediMinder/tree/main/src/) ist der Quellcode der Angular WebApp zu finden. Unter dem Unterordner "app" ist die WebApp an sich, in dem Verzeichnis "services" ist die Logik zur Bluetooth verbindung hinterlegt.
+
+# 5. Quellen 
+
+tbc
