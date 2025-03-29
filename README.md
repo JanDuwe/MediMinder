@@ -1,4 +1,4 @@
-#1. Projektbeschreibung
+# 1. Projektbeschreibung
 
 In diesem GitHub Repository ist die Projektabgabe von Alice Kitchkin, Moritz Eichhorn und Jan Duwe hinterlegt. 
 
