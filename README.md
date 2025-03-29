@@ -1,3 +1,5 @@
+#1. Projektbeschreibung
+
 In diesem GitHub Repository ist die Projektabgabe von Alice Kitchkin, Moritz Eichhorn und Jan Duwe hinterlegt. 
 
 MediMinder ist ein Projekt zur Nachvollziehbarkeit der Medikamenteneinnahme. Dabei wird ein Arduino Nano 33 BLE Sense an einer Medikamentenpackung montiert. Mithilfe  der "Inertial Measurement Unit" des Arduinos (Beschleunigungssensor und Gyroskop) können nun verschiedene Bewegungen an der Medikamentenpackung gemessen werden. Im Rahmen des Projekts wurde zusätzlich die Plattform [Edge Impulse](https://edgeimpulse.com/) genutzt, um ein TinyML zur Klassifizierung der Bewegungen am Arduino zu entwickeln und diese einordnen zu können. Die klassifizierten Daten werden mithilfe von Bluetooth Low Energy übertragen und auf einer Angular WebApp abgebildet.
