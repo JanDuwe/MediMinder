@@ -4,6 +4,11 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { Log } from '../app/types/interfaces';
 
+/*
+This service is a singleton class that manages the Bluetooth connection and data transfer from the Arduino device.
+It handles the connection to the Bluetooth device, the GATT server, and the characteristics of the service. 
+*/
+
 @Injectable({
   providedIn: 'root',
 })
@@ -22,6 +27,10 @@ export class BluetoothService {
 
   private constructor() {}
 
+  /*
+  This method is used to get the singleton instance of the BluetoothService class, thus acting like a constructor.
+  It creates a new instance if it doesn't exist yet.
+  */
   public static getInstance(): BluetoothService {
     if (!BluetoothService.instance) {
       BluetoothService.instance = new BluetoothService();
@@ -45,6 +54,10 @@ export class BluetoothService {
     });
   }
 
+  /*
+  This function is used to connect to the Bluetooth device.
+  It requests the user to select a Bluetooth device and then connects to it.
+  */
   async tryConnect(): Promise<boolean> {
     return navigator.bluetooth
       .requestDevice(
@@ -55,9 +68,8 @@ export class BluetoothService {
         // filters: [{ services: [this.SERVICE_UUID] }]
       )
       .then(async (selectedDevice) => {
-        // Hier verwenden wir eine asynchrone Funktion
         console.log('Gerät ausgewählt:', selectedDevice);
-        this.device = selectedDevice; // Speichern des Geräts für späteren Gebrauch
+        this.device = selectedDevice; 
         this.device.addEventListener(
           'gattserverdisconnected',
           this.onDisconnected.bind(this)
@@ -68,7 +80,7 @@ export class BluetoothService {
         try {
           const connServer = await Promise.race([
             this.device.gatt.connect(),
-            this.timeoutPromise(10000), // Stellen Sie sicher, dass timeoutPromise definiert ist
+            this.timeoutPromise(10000),
           ]);
           if (!connServer) {
             throw new Error(

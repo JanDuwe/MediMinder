@@ -7,6 +7,11 @@ import { MatIconModule } from '@angular/material/icon';
 import { AsyncPipe } from '@angular/common';
 import { OnInit, OnDestroy } from '@angular/core';
 
+/*
+This component is the home page of the application.
+It allows the user to connect to an Arduino device via Bluetooth and navigate to the details page.
+*/
+
 @Component({
   selector: 'app-home',
   imports: [MatButtonModule, MatIconModule, AsyncPipe],
